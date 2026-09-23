@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lovora</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f5f5f7;color:#222;padding-bottom:75px}
+.header{
+  background:linear-gradient(135deg,#ff3d81,#7b2cff);
+  color:white;padding:20px;border-radius:0 0 25px 25px
+}
+.header h1{font-size:28px}
+.header p{margin-top:5px;opacity:.9}
+.search{
+  background:white;color:#888;padding:13px;border-radius:14px;
+  margin-top:18px
+}
+.page{display:none;padding:20px}
+.page.active{display:block}
+h2{margin-bottom:15px}
+.live-list{
+  display:flex;gap:14px;overflow-x:auto;padding-bottom:10px
+}
+.live-card{
+  min-width:125px;height:165px;border-radius:18px;
+  padding:12px;color:white;display:flex;align-items:end;
+  font-weight:bold;background:linear-gradient(135deg,#ff416c,#ff4b2b)
+}
+.live-card:nth-child(2){
+  background:linear-gradient(135deg,#4776e6,#8e54e9)
+}
+.live-card:nth-child(3){
+  background:linear-gradient(135deg,#11998e,#38ef7d)
+}
+.live-card:nth-child(4){
+  background:linear-gradient(135deg,#f7971e,#ffd200)
+}
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px
+}
+.box{
+  background:white;padding:20px;border-radius:18px;
+  box-shadow:0 3px 12px #ddd
+}
+.box .icon{font-size:28px;margin-bottom:8px}
+.profile{text-align:center}
+.avatar{
+  width:100px;height:100px;border-radius:50%;
+  margin:10px auto;background:linear-gradient(135deg,#ff3d81,#7b2cff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:45px;color:white
+}
+.stats{
+  display:flex;justify-content:space-around;background:white;
+  padding:18px;border-radius:18px;margin:20px 0
+}
+.btn{
+  border:0;border-radius:13px;padding:13px 20px;
+  background:linear-gradient(135deg,#ff3d81,#7b2cff);
+  color:white;font-weight:bold
+}
+.chat{
+  background:white;padding:15px;border-radius:16px;margin-bottom:12px;
+  display:flex;gap:12px;align-items:center
+}
+.chat-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:#eee;display:flex;align-items:center;justify-content:center;
+  font-size:24px
+}
+.wallet{
+  background:linear-gradient(135deg,#ff3d81,#7b2cff);
+  color:white;padding:25px;border-radius:20px;margin-bottom:20px
+}
+.wallet h1{font-size:32px;margin-top:8px}
+.setting{
+  background:white;padding:17px;border-radius:15px;margin-bottom:10px
+}
+.bottom{
+  position:fixed;bottom:0;left:0;right:0;background:white;
+  display:flex;justify-content:space-around;padding:10px 3px;
+  box-shadow:0 -3px 12px #ddd;z-index:10
+}
+.bottom button{
+  background:none;border:0;font-size:12px;color:#555
+}
+.bottom button.active{color:#ff3d81;font-weight:bold}
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  background:#222;color:white;padding:12px 20px;border-radius:20px;
+  display:none;z-index:20
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <h1>❤️ Lovora</h1>
+  <p>Connect • Chat • Go Live</p>
+  <div class="search">🔍 Search people...</div>
+</header>
+
+<!-- HOME -->
+<section id="home" class="page active">
+  <h2>🔴 Live Now</h2>
+
+  <div class="live-list">
+    <div class="live-card">👩 Priya<br>🔴 LIVE</div>
+    <div class="live-card">👨 Rahul<br>🔴 LIVE</div>
+    <div class="live-card">👩 Neha<br>🔴 LIVE</div>
+    <div class="live-card">👨 Aman<br>🔴 LIVE</div>
+  </div>
+
+  <div class="grid">
+    <div class="box" onclick="showPage('live')">
+      <div class="icon">🎥</div>
+      <b>Go Live</b>
+      <p>Start your live</p>
+    </div>
+
+    <div class="box" onclick="showPage('chat')">
+      <div class="icon">💬</div>
+      <b>Messages</b>
+      <p>Chat with friends</p>
+    </div>
+
+    <div class="box" onclick="showPage('discover')">
+      <div class="icon">❤️</div>
+      <b>Discover</b>
+      <p>Find people</p>
+    </div>
+
+    <div class="box" onclick="showPage('wallet')">
+      <div class="icon">🎁</div>
+      <b>Gifts</b>
+      <p>Send virtual gifts</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE -->
+<section id="live" class="page">
+  <h2>🔴 Live Streaming</h2>
+
+  <div class="box" style="height:300px;text-align:center;
+       background:#171717;color:white;padding-top:100px">
+    <div style="font-size:50px">🎥</div>
+    <p>Live Camera Preview</p>
+    <br>
+    <button class="btn" onclick="startLive()">🔴 Start Live</button>
+  </div>
+
+  <div class="grid">
+    <div class="box">❤️ Likes<br><b>1,250</b></div>
+    <div class="box">👥 Viewers<br><b>248</b></div>
+  </div>
+</section>
+
+<!-- CHAT -->
+<section id="chat" class="page">
+  <h2>💬 Messages</h2>
+
+  <div class="chat" onclick="openChat('Priya')">
+    <div class="chat-avatar">👩</div>
+    <div><b>Priya</b><br><small>Hi! How are you?</small></div>
+  </div>
+
+  <div class="chat" onclick="openChat('Rahul')">
+    <div class="chat-avatar">👨</div>
+    <div><b>Rahul</b><br><small>Hello 👋</small></div>
+  </div>
+
+  <div class="chat" onclick="openChat('Neha')">
+    <div class="chat-avatar">👩</div>
+    <div><b>Neha</b><br><small>Nice to meet you!</small></div>
+  </div>
+</section>
+
+<!-- DISCOVER -->
+<section id="discover" class="page">
+  <h2>❤️ Discover</h2>
+
+  <div class="grid">
+    <div class="box" style="text-align:center">
+      <div class="avatar">👩</div>
+      <b>Priya</b><br>
+      <small>Online</small><br><br>
+      <button class="btn" onclick="follow(this)">Follow</button>
+    </div>
+
+    <div class="box" style="text-align:center">
+      <div class="avatar">👨</div>
+      <b>Rahul</b><br>
+      <small>Online</small><br><br>
+      <button class="btn" onclick="follow(this)">Follow</button>
+    </div>
+
+    <div class="box" style="text-align:center">
+      <div class="avatar">👩</div>
+      <b>Neha</b><br>
+      <small>Online</small><br><br>
+      <button class="btn" onclick="follow(this)">Follow</button>
+    </div>
+
+    <div class="box" style="text-align:center">
+      <div class="avatar">👨</div>
+      <b>Aman</b><br>
+      <small>Online</small><br><br>
+      <button class="btn" onclick="follow(this)">Follow</button>
+    </div>
+  </div>
+</section>
+
+<!-- WALLET -->
+<section id="wallet" class="page">
+  <h2>🎁 Gifts & Wallet</h2>
+
+  <div class="wallet">
+    <p>My Coins</p>
+    <h1>💰 1,000</h1>
+  </div>
+
+  <div class="grid">
+    <div class="box">🌹 Rose<br><b>10 Coins</b></div>
+    <div class="box">❤️ Heart<br><b>50 Coins</b></div>
+    <div class="box">🎁 Gift<br><b>100 Coins</b></div>
+    <div class="box">💎 Diamond<br><b>500 Coins</b></div>
+  </div>
+
+  <br>
+  <button class="btn" onclick="toast('Wallet system बाद में Firebase से जोड़ा जाएगा')">
+    + Add Coins
+  </button>
+</section>
+
+<!-- PROFILE -->
+<section id="profile" class="page profile">
+  <h2>👤 My Profile</h2>
+
+  <div class="avatar">👤</div>
+
+  <h2>My Lovora</h2>
+  <p>@lovora_user</p>
+
+  <div class="stats">
+    <div><b>120</b><br>Followers</div>
+    <div><b>80</b><br>Following</div>
+    <div><b>25</b><br>Lives</div>
+  </div>
+
+  <button class="btn" onclick="toast('Edit Profile बाद में जोड़ा जाएगा')">
+    ✏️ Edit Profile
+  </button>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+  <h2>⚙️ Settings</h2>
+
+  <div class="setting">👤 Account</div>
+  <div class="setting">🔔 Notifications</div>
+  <div class="setting">🛡️ Privacy & Safety</div>
+  <div class="setting">🚫 Blocked Users</div>
+  <div class="setting">❓ Help & Support</div>
+  <div class="setting">🚪 Logout</div>
+</section>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom">
+  <button onclick="showPage('home')">🏠<br>Home</button>
+  <button onclick="showPage('live')">🔴<br>Live</button>
+  <button onclick="showPage('chat')">💬<br>Chat</button>
+  <button onclick="showPage('discover')">❤️<br>Discover</button>
+  <button onclick="showPage('profile')">👤<br>Profile</button>
+</nav>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+function showPage(page){
+
+  document.querySelectorAll(".page").forEach(function(p){
+    p.classList.remove("active");
+  });
+
+  document.getElementById(page).classList.add("active");
+
+  window.scrollTo(0,0);
+}
+
+function toast(message){
+
+  const t=document.getElementById("toast");
+
+  t.innerText=message;
+  t.style.display="block";
+
+  setTimeout(function(){
+    t.style.display="none";
+  },2500);
+}
+
+function startLive(){
+  toast("Live system अगले चरण में जोड़ेंगे");
+}
+
+function follow(button){
+
+  button.innerText="Following ✓";
+  button.style.background="#333";
+
+  toast("Follow किया गया ❤️");
+}
+
+function openChat(name){
+  toast(name+" के साथ chat अगले चरण में जोड़ेंगे");
+}
+
+</script>
+
+</body>
+</html>
